@@ -84,6 +84,9 @@ We used the Monet paintings to train our model so that it could learn Monet styl
 In our problem given the real-life images $x_{i}\in X$ and monet paintings $x_{i}\in Y$ we aim to learn mapping functions between the two domains X and Y, donating the data distribution as $x \sim p_{data}(x)$ and $y \sim p_{data}(y)$. Our model captures the mapping between domains using two conditionally generative \cite{imgtoimg} models G : X $\longrightarrow$ Y and F : Y $\longrightarrow$ X. Additionally, we also include two adversarial discriminators $D_{X}$ and $D_{Y}$ where task of $D_{X}$ is to discriminate between \{x\} and translated images \{F(y)\}. Similarly, $D_{Y}$ aims to distinguish between \{y\} and \{G(x)\} \cite{cyclegan}. The objective of our work is to minimize two losses: \emph{adversarial loss} \cite{simplegan} which helps to close the gap between the data distribution of target domain and the generated images; and \emph{cycle consistency loss} to keep the results of the two mapping functions consistent.
 
 \subsection{Adversarial Loss}
+To learn the distribution of $x \sim p_{data}(x)$, we first define a prior on input noise variables $p_{z}(z)$ and define a mapping G:z $\longrightarrow$ that can be trained using a convolutional neural network \cite{cnn}. We also define a discriminator D (also trained using a CNN) that instead of a single scalar \cite{simplegan}, outputs an image with decreased dimentionality where pixels that are more likely to be in data distribution $p_{data}(x)$ have higher values. We train both models simultaneously in a two-player minimax approach that can be expressed as:
+[formula1]
+The adversarial loss, maximizes the probablity of discriminator D differentiating training examples and generated samples
 \subsection{Cycle Consistency Loss}
 \subsection{Full Objective}
 \subsection{Implementation}
