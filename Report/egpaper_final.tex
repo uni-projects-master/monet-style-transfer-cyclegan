@@ -51,18 +51,15 @@ Nicla Faccioli\\
 painter, Claude Monet. Since the generative adversarial
 model has its limitations when it comes to more complex
 computer vision problems, we will be using a variation
-of generative adversarial models, CycleGAN to capture the
-“impression” of an artist from their surroundings. Cycle-
-GAN is an unpaired image to image translation using cycleconsistent
-adversarial nets.
+of generative adversarial models, cycle consistent GAN to capture the
+“impression” of an artist from their surroundings. CycleGAN is an unpaired image to image translation using cycle consistent adversarial nets.
 \end{abstract}
 
 %%%%%%%%% BODY TEXT
 \section{Introduction}
 The focus of this paper is to reproduce the style of Claude Monet, the
-influential impressionist painter in the nineteenth century. Claude Monet’s style is unique and recognizable by his short and thick strokes that capture the essence of the
-subject. Monet’s work is particularly interesting because of the strong logarithmic correlations within his paintings that makes it possible to generate new Monet-like images. \cite{monetlog}
-This project attempts to transfer the painter's style into existing real-life photos. Style transfer is a computer vision technique that aims to combine two images together. In particular, given a content image (i.e. is interesting for its content) and a style image (i.e. is interesting for its style), the task is to blend them together in order to obtain as output a third image which will represent the content of the first image in the style of the second one. Therefore, we aim to learn a mapping function G: X$\rightarrow$Y such that the distribution of G(X) is inseparable from the disribution of Y using the adversarial loss (i.e. the discriminator). To further constraint the generator, we pair it with an inverse map F:Y$\rightarrow$X and use cycle consistency loss to enforce F(G(X))$\sim$X. \cite{cyclegan}
+influential impressionist painter in the nineteenth century. Claude Monet’s style is unique and recognizable by his short and thick strokes that capture the essence of the subject. Monet’s work is particularly interesting because of the strong logarithmic correlations within his paintings that makes it possible to generate new Monet-like images. \cite{monetlog}
+This project attempts to transfer the painter's style into existing real-life photos. Style transfer is a computer vision technique that aims to combine two images together. In particular, given a content image (i.e. is interesting for its content) and a style image (i.e. is interesting for its style), the task is to blend them together in order to obtain as output a third image which will represent the content of the first image in the style of the second one. Therefore, we aim to learn a mapping function G: X$\longrightarrow$Y such that the distribution of G(X) is inseparable from the disribution of Y using the adversarial loss (i.e. the discriminator). To further constraint the generator, we pair it with an inverse map F:Y$\longrightarrow$X and use cycle consistency loss to enforce F(G(X))$\sim$X. \cite{cyclegan}
 %\\ results
 
 
@@ -83,6 +80,14 @@ We used the Monet paintings to train our model so that it could learn Monet styl
 % data preprocessing
 
 \section{Method}
+%discuss your approach for solving the problems that you set up in the introduction. Why is your approach the right thing to do? Did you consider alternative approaches? It may be helpful to include figures, diagrams, or tables to describe your method or compare it with others.
+In our problem given the real-life images $x_{i}\in X$ and monet paintings $x_{i}\in Y$ we aim to learn mapping functions between the two domains X and Y, donating the data distribution as $x \sim p_{data}(x)$ and $y \sim p_{data}(y)$. Our model captures the mapping between domains using two conditionally generative \cite{imgtoimg} models G : X $\longrightarrow$ Y and F : Y $\longrightarrow$ X. Additionally, we also include two adversarial discriminators $D_{X}$ and $D_{Y}$ where task of $D_{X}$ is to discriminate between \{x\} and translated images \{F(y)\}. Similarly, $D_{Y}$ aims to distinguish between \{y\} and \{G(x)\} \cite{cyclegan}. The objective of our work is to minimize two losses: \emph{adversarial loss} \cite{simplegan} which helps to close the gap between the data distribution of target domain and the generated images; and \emph{cycle consistency loss} to keep the results of the two mapping functions consistent.
+
+\subsection{Adversarial Loss}
+\subsection{Cycle Consistency Loss}
+\subsection{Full Objective}
+\subsection{Implementation}
+
 \section{Experiments}
 
 {\small
