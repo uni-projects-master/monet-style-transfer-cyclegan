@@ -86,8 +86,10 @@ In our problem given the real-life images $x_{i}\in X$ and monet paintings $x_{i
 \subsection{Adversarial Loss}
 To learn the distribution of $x \sim p_{data}(x)$, we first define a prior on input noise variables $p_{z}(z)$ and define a mapping G:z $\longrightarrow$ that can be trained using a convolutional neural network \cite{cnn}. We also define a discriminator D (also trained using a CNN) that instead of a single scalar \cite{simplegan}, outputs an image with decreased dimentionality where pixels that are more likely to be in data distribution $p_{data}(x)$ have higher values. We train both models simultaneously in a two-player minimax approach that can be expressed as:
 [formula1]
-The adversarial loss, maximizes the probablity of discriminator D differentiating training examples and generated samples
 \subsection{Cycle Consistency Loss}
+In theory, adversarial training can give prominant results. However, in the unsupervised learning environment of GANs, where the two datasets X and Y are not paired and their cardinality can be uneven, the learning process can fail as a network can map the same set of input images to any random permutation of images in the target domain, where any of the learned mappings can induce an output distribution that matches the target distribution \cite{cyclegan}. Therefore, adversarial losses alone cannot guarantee that the desired output is given by the learned function. To further constraint the mapping function, we introduce cycle consistency loss. For each sample x from domain X, the cycle should bring x to the original image. We donate \emph{forward cycle consistency} as $x \rightarrow G(x)\rightarrow F(G(x)) \approx x$. Similarly, for each y in domain Y, \emph{backward cycle consistency} $y \rightarrow F(y)\rightarrow G(F(y)) \approx y$ is also satisfied \cite{cyclegan}. The objective is then defined as:
+[formula 2]
+
 \subsection{Full Objective}
 \subsection{Implementation}
 
