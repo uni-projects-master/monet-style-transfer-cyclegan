@@ -94,6 +94,11 @@ In theory, adversarial training can give prominant results. However, in the unsu
 \subsection{Implementation}
 
 \section{Experiments}
+In order to evaluate the results of our work we looked for some metrics that could help us in this task \cite{metrics}. \\
+\textbf{Fréchet Inception Distance (FID)} Introduced by \textit{Heusel et al.} \cite{fid}, FID measures the distance between the feature vector of the generated images and the feature vector of the real images. Therefore, a lower FID score represents a better performance of the generator since the images it creates are similar to the real ones. The formula to calculate the FID score is the following:
+$$ \textstyle FID(r, g) = \| \mu_{r} - \mu_{g} \| _{2}^{2} + Tr(\sum_{r} +  \sum_{g} - 2(\sum_{r}\sum_{g})^\frac{1}{2}) $$
+Where $\textstyle (\mu_{r} , \sum_{r})$ is the multivariate normal distribution estimated from a specific layer of Inception Net features for real images and $\textstyle (\mu_{g} , \sum_{g})$ is the multivariate normal distribution estimated from a specific layer of Inception Net features for generated images.
+
 
 {\small
 \bibliographystyle{ieee_fullname}
