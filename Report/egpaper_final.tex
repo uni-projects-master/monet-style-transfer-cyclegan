@@ -94,10 +94,20 @@ In theory, adversarial training can give prominant results. However, in the unsu
 \subsection{Implementation}
 
 \section{Experiments}
-In order to evaluate the results of our work we looked for some metrics that could help us in this task \cite{metrics}. \\
+
+\subsection{Evaluation metrics}
+In order to evaluate the results of our work we looked for some metrics that could help us in this task \cite{metrics}. In order to apply them we used already existing code on GitHub \cite{metricsRepo}\\
 \textbf{Fréchet Inception Distance (FID)} Introduced by \textit{Heusel et al.} \cite{fid}, FID measures the distance between the feature vector of the generated images and the feature vector of the real images. Therefore, a lower FID score represents a better performance of the generator since the images it creates are similar to the real ones. The formula to calculate the FID score is the following:
 $$ \textstyle FID(r, g) = \| \mu_{r} - \mu_{g} \| _{2}^{2} + Tr(\sum_{r} +  \sum_{g} - 2(\sum_{r}\sum_{g})^\frac{1}{2}) $$
-Where $\textstyle (\mu_{r} , \sum_{r})$ is the multivariate normal distribution estimated from a specific layer of Inception Net features for real images and $\textstyle (\mu_{g} , \sum_{g})$ is the multivariate normal distribution estimated from a specific layer of Inception Net features for generated images.
+where $\textstyle (\mu_{r} , \sum_{r})$ is the multivariate normal distribution estimated from a specific layer of Inception Net features for real images and $\textstyle (\mu_{g} , \sum_{g})$ is the multivariate normal distribution estimated from a specific layer of Inception Net features for generated images. 
+
+\textbf{Number of statistically-Different Bins (NDB)} Introduced by \textit{Richardson and Weiss} \cite{ndb}, this metric is applied to the image pixels and, unlike FID, does not rely on a representation of those images. This evaluation method is based on the observation that given two set of samples originated from the same distribution, the number of samples that falls into a given bin should be the same up to sampling noise. More formally, if $I_{B}(s)$ is an indicator function for bin \textit{B}, i.e. $I_{B}(s)=1$ if the sample \textit{s} falls into bin \text{B} and $I_{B}(s)=0$ otherwise, and given ${s_{i}^{p}}$ and ${s_{j}^{q}}$ respectively ${N_{p}}$ samples from distribution \textit{p} and ${N_{q}}$ samples from distribution q, then if $p=q$ then we expect to be $\textstyle \frac{1}{N_p}\sum_{i}{I_B(s_{i}^{p})} \approx \frac{1}{N_q}\sum_{j}{I_B(s_{j}^{q})} $. When this is not true for a given bin, they are said to be \textit{statistically different}. The test is performed on all bins and then the number of statistically-different bins is the final result. 
+
+\textbf{Jensen-Shannon Divergence (JSD)} As reported in \cite{jsd}, JSD is a smoothed and simmetrized version of the Kullback divergence amd measures the divergence between two probability distributions $p$ and $q$. It is defined as: 
+$$D_{JS}(p\|q)=\frac{1}{2}D_{KL}(p\|\frac{p+q}{2})+\frac{1}{2}D_{KL}(q\|\frac{p+q}{2}))$$
+This can be used in order to understand the diversity of the generated images.
+
+\textbf{Learned Perceptual Image Patch Similarity (LPIPS)}
 
 
 {\small
