@@ -71,12 +71,12 @@ In \textbf{Generative Adversarial Nets (GANs)}, two models are trained simultane
 
 \section{Dataset}
 
-The dataset was collected from Kaggle, a platform in which competitions and challenges are proposed and where we got the idea for this project. The dataset is composed by:
+The dataset was collected from the Kaggle competition \cite{kaggle}, a platform in which challenges are proposed and where we got the idea for this project. The dataset is composed by:
 \begin{itemize}
 \item A set of 300 Monet paintings sized 256x256 in both JPEG and TFRecord format;
 \item A set of 7028 photos sized 256x256 in both JPEG and TFRecord format.
 \end{itemize}
-We used the Monet paintings to train our model so that it could learn Monet style and then we used the photos to apply the learned style. 
+We used the Monet paintings to train our model so that it could learn Monet style and imitate it. Then we applied the learned style over the set of real photos in order to generate new imges that could resemble real paintings. The size of all the images was already the right one for the computation, hence no resizing was needed. 
 % data preprocessing
 
 \begin{table*}
@@ -146,11 +146,18 @@ In theory, adversarial training can give prominant results. However, in the unsu
 \subsection{Implementation}
 \textbf{Network Architucture} We used a \textit{U-net CNN} for our generative network. A \textit{U-net} is a fully connected convolutional neural network that was first introduced for biomedical image segmentation \cite{unet}. We downsample our input data (i.e. decrease the dimensions) by a convolutional layer with $7 \times 7$ filter. The motive behind choosing a bigger filter was to capture general features in the images. Downsampling then is followed by two more $3 \times 3$ filters and 2-strides. We applied several convolutional layers, obtaining a deeper image transformation.   To obtain the final results, we upsample (i.e. increase dimenstions) using two convlutional layers with $\frac{1}{2}$ strides. We also applied instance normalization \cite{insnorm} to all layers and established the skip connections in the \textit{Unet}. For the discriminator we used \text{PatchGANs} which aims to classify if the $n \times n$ patch of a given image is real or fake \cite{imgtoimg}. 
 
+\begin{figure}
+	\includegraphics[width=23em]{fid.png}
+	\caption{\textbf{FID}. Results of FID evaluated over the different models that we experimented.}
+	\label{figure:fid}
+\end{figure}
+
 \section{Experiments}
 The core of all of our experiments follows the explained objective. However, different model implementations have given us dramatically different results. Out of all these experiments, we selected three main models for comparison purposes. The first model (i.e. \texttt{model1}) is a naive approach in generative models. It has 5 downsampling and 5 upsampling layers with filter size $8 \times 8$ and no intermediate layers. In downsampling, we used \textit{maxpooling} with 2-stride and the activation \textit{leakyReLU}. This model has a high level of noise and the results obtained were not satisfactory. The second model (\texttt{model2}) was inspired by the Kaggle competition suggested framework \cite{kaggle}. It has a smaller filter size ($4 \times 4$) and more layer of both downsampling and upsampling such that it reaches the pixel-sized dimensionality. It uses dropout in three of the upsampling layers and the activation functionn is \textit{leakyReLU}. This model has the benefit of having more precision as a generator and in some cases generates prominent results. For the third model, (\texttt{model3}) we removed the dropout and, instead of reducing the size to 1 pixel in downsampling, we stopped at size $64 \times 64$ and added several “transforming” blocks with no size reduction. Although this model has a noticeable degree of noise in the generated images, it is more “monet-esque” to the eyes of the viewers and it contains the brushing style of the painter considerably more than the second model. 
 
 \subsection{Evaluation metrics}
-In order to evaluate the results of our work we looked for some metrics that could help us in this task \cite{metrics}. In order to apply them we used already existing code on GitHub \cite{metricsRepo}\\
+In order to evaluate the results of our work we looked for some metrics that could help us in this task \cite{metrics}. In order to apply them we used already existing code on GitHub \cite{metricsRepo}.
+
 \textbf{Fréchet Inception Distance (FID)} Introduced by \textit{Heusel et al.} \cite{fid}, FID measures the distance between the feature vector of the generated paintings and the feature vector of the real paintings. Therefore, a lower FID score represents a better performance of the generator since the images it creates are similar to the real ones. The formula to calculate the FID score is the following:
 \begin{equation}
 	\begin{split}
@@ -171,21 +178,15 @@ where $\textstyle (\mu_{r} , \sum_{r})$ is the multivariate normal distribution 
 \end{equation}
 This can be used in order to understand the diversity of the generated in a slightly different way with respect to NDB.
 
-\begin{table}
-	\centering
-	\begin{tabular}{ c | c  c  c}
-		\textbf{Metric} & \textbf{model1} & \textbf{model2} & \textbf{model3} \\ 
-		\hline
-		\textbf{FID} & 238.2 & 88.6 & 97.2 \\  
-		\textbf{NDB} & 0.73 & 0.61 & 0.45 \\
-		\textbf{JSD} & 0.74 & 0.54 & 0.50 
-	\end{tabular}
 
-\caption{\textbf{Metrics results}. Results of the evaluation performed over the different models that we experimented.}
-\label{table:metrics}
-\end{table}
+\begin{figure}
+	\includegraphics[width=23em]{index.png}
+	\caption{\textbf{NDB and JSD}. Results of NDB and JSD evaluated over the different models that we experimented.}
+	\label{figure:ndb-jsd}
+\end{figure}
 
 \section{Conclusions}
+We applied the three models we implemented to the original photos and, as it's possible to see in Table [\ref{table:results}], the results differes a lot from one model to the other. From a visual point of view, the first model we proposed generates output with a huge degree of noise. Hence the result is a set of images in which is impossible to distinguish any element of the original photos. \texttt{Model2} on the other hand is able to generate images that better represent the content of the original photos and also applies some of Monet style. With respect to \texttt{model1}, with \texttt{model2} it is possible to appreciate a relevant improvement. Finally, the third model enhance a bit more the painter style since it's possible to appreciate some hint of strokes and brushing. The issue in \texttt{model3} is that a certain degree of noise is introduced again but in general seems to create images that better imitate the orginal paintings. Also the measurment performed by the metrics we applied seems to confirm what we were able to visually appreciate: the quality of the image results to be better with \texttt{model2} since it presents a lower level of noise, but from a diversity point of view, \texttt{model3} performed in a better way. 
 
 {\small
 \bibliographystyle{ieee_fullname}
