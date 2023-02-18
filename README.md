@@ -1,6 +1,7 @@
 # Cycle Generative Adversarial Nets for Style Transfer of Monet Paintings
 University of Padua - Computer Science Master Degree <br />
 Vision and Cognitive System Project
+[Kaggle competition](https://www.kaggle.com/competitions/gan-getting-started)
 
  <table>
   <tr>
