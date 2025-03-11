@@ -2,11 +2,6 @@
 
 This project implements Cycle Generative Adversarial Networks (CycleGANs) to perform style transfer, transforming images to emulate the style of Monet's paintings.
 
-## Team Members
-
-- **Solmaz Mohammadi**: solmaz.mohammadi@studenti.unipd.it
-- **Nicla Faccioli**: nicla.faccioli@studenti.unipd.it
-
 ## Project Overview
 
 This project was developed as part of the Vision and Cognitive System course at the University of Padua, Computer Science Master's Degree program. The goal is to apply CycleGANs for artistic style transfer, specifically focusing on Monet's painting style.
