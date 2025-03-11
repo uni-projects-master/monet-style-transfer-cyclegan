@@ -17,6 +17,6 @@ This project was inspired by the Kaggle competition [I'm Something of a Painter 
 
 ---
 
-*Contributor: [Nicla Faccioli]()*
+*Contributor: [Nicla Faccioli](https://github.com/Nikura3)*
 
 ---
